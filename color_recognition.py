@@ -1,5 +1,5 @@
 import cv2
-from utils.utils import detectar_color
+from utils import utils
 
 
 def init_color_recognition():
@@ -18,9 +18,36 @@ def init_color_recognition():
         cx, cy = width // 2, height // 2
 
         pixel_center = hsv_frame[cy, cx]
-        color = detectar_color(pixel_center)
+        # color = utils.detectar_color(pixel_center)
+        color = utils.detectar_color2(pixel_center)
         print(color)
         cv2.circle(frame, (cx, cy), 5, (255, 0, 0), 3)
+
+        # Texto para indicar al usuario que coloque el objeto en el centro
+        texto_instruccion = "Coloque el objeto en el punto medio"
+        cv2.putText(
+            frame,
+            texto_instruccion,
+            (50, 50),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.8,
+            (255, 255, 255),
+            2,
+            cv2.LINE_AA,
+        )
+
+        # Texto para mostrar el color detectado
+        texto_color = f"Color detectado: {color.title()}"
+        cv2.putText(
+            frame,
+            texto_color,
+            (50, 80),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.8,
+            (255, 255, 255),
+            2,
+            cv2.LINE_AA,
+        )
 
         cv2.imshow("Frame", frame)
         key = cv2.waitKey(1)
