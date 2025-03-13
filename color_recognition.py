@@ -6,7 +6,7 @@ from tensorflow.keras.models import load_model
 # Cargar el modelo entrenado
 model = load_model("model/colors_model.keras")
 
-categories = [
+NOMBRE_COLORES = [
     "Rojo",
     "Verde",
     "Azul",
@@ -26,7 +26,7 @@ def detenting_color(pixel_rgb):
     train_predictions = model.predict(data_to_test)
 
     color_index = np.argmax(train_predictions[0])
-    return categories[color_index]
+    return NOMBRE_COLORES[color_index]
 
 
 def init_color_recognition():
