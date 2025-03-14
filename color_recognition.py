@@ -29,9 +29,26 @@ def detenting_color(pixel_rgb):
     return NOMBRE_COLORES[color_index]
 
 
-def init_color_recognition():
+def detectar_indice_camara():
+    index = None
+    for i in range(10):
+        cap = cv2.VideoCapture(i, cv2.CAP_V4L2)
+        if cap.isOpened():
+            print(f"Camera index {i} is available.")
+            cap.release()
+            index = i
+        else:
+            print(f"Camera index {i} is not available.")
 
-    cap = cv2.VideoCapture(0, cv2.CAP_V4L2)
+    return index
+
+
+def init_color_recognition():
+    index = detectar_indice_camara()
+    if index is None:
+        print("Cámara no habilitada")
+
+    cap = cv2.VideoCapture(index, cv2.CAP_V4L2)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
@@ -70,6 +87,19 @@ def init_color_recognition():
             frame,
             texto_color,
             (50, 80),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.8,
+            (255, 255, 255),
+            2,
+            cv2.LINE_AA,
+        )
+
+        # Texto salida
+        texto_salida = "Presione ESC para salir"
+        cv2.putText(
+            frame,
+            texto_salida,
+            (50, 110),
             cv2.FONT_HERSHEY_SIMPLEX,
             0.8,
             (255, 255, 255),
